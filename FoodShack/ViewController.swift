@@ -57,15 +57,29 @@ class ViewController: UIViewController {
     func setConstraints() {
         
         /** Top View Holder **/
-        var formatString = "V:|-[topViewHolder(50)]"
-        var newConstraints = NSLayoutConstraint.constraints(withVisualFormat: formatString, options: [], metrics: nil, views: self.views)
-        self.constraints += newConstraints
+        addContraint(format: "V:|-[topViewHolder(50)]-0-[mainThumbViewHolder]")
+        addContraint(format: "H:|-0-[topViewHolder]-0-|")
         
-        formatString = "H:|-0-[topViewHolder]-0-|"
-        newConstraints = NSLayoutConstraint.constraints(withVisualFormat: formatString, options: [], metrics: nil, views: self.views)
-        self.constraints += newConstraints
+        /** Main View Holder **/
+        addContraint(format: "V:[mainThumbViewHolder(<=250@250)]-0-[buttonViewHolder]")
+        addContraint(format: "V:[mainThumbViewHolder(>=150@250)]")
+        addContraint(format: "H:|-0-[mainThumbViewHolder(==topViewHolder)]-0-|")
+        
+        /** Main Button Holder **/
+        addContraint(format: "V:[buttonViewHolder(<=200)]-0-[bottomViewHolder]")
+        addContraint(format: "V:[buttonViewHolder(>=100)]")
+        addContraint(format: "H:|-0-[buttonViewHolder(mainThumbViewHolder)]-0-|")
+        
+        /** Main Bottom Holder **/
+        addContraint(format: "V:[bottomViewHolder(50@1000)]-|")
+        addContraint(format: "H:|-0-[bottomViewHolder(buttonViewHolder)]-0-|")
         
         NSLayoutConstraint.activate(self.constraints)
+    }
+    
+    func addContraint(format: String) {
+        let newConstraints = NSLayoutConstraint.constraints(withVisualFormat: format, options: [], metrics: nil, views: self.views)
+        self.constraints += newConstraints
     }
 }
 
